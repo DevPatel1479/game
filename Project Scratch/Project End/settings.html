@@ -1,0 +1,122 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+       body 
+       {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            size: 100px;
+            display: flex;
+            flex-direction: column;
+            background-image: url("home_page1.png");
+            background-repeat: no-repeat;
+            background-size: 1540px 870px;
+            overflow: hidden;
+        }
+        canvas
+         {
+            max-width: 40%; 
+            margin-top: 110px;
+            margin-left: 400px; 
+            height:450px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+         }
+        h1 
+        {
+            color: #3498db;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .special .key 
+        {
+            color: white;
+         }
+         button 
+        {
+            width: 120px;
+            height: 50px;
+            border-radius: 20px;
+            background-color: grey;
+            margin-left: 620px;
+            margin-top: 10px;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            font-size: larger;
+}
+    </style>
+    <title>Game Controls</title>
+</head>
+<body>
+    <canvas id="controlsCanvas"></canvas>
+     <button onclick="gotoHomePage();">Back</button> 
+<script>
+    
+        const canvas = document.getElementById('controlsCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 620;
+        canvas.height = 430;
+        const controls = [
+            { arrow: 'Up', key: 'W' },
+            { arrow: 'Down', key: 'S' },
+            { arrow: 'Left', key: 'A' },
+            { arrow: 'Right', key: 'D' },
+            { key: 'Pause', action: 'Spacebar' },
+        ];
+        function drawControls() 
+        {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Set the background color to greyish
+                ctx.fillStyle = 'rgba(192, 192, 192, 0.9)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.font = '30px Arial';
+                ctx.fillStyle = 'black';
+                ctx.fillText('Game Controls', canvas.width / 3.4, 70);
+                controls.forEach((control, index) => {
+                const y = 120 + index * 50;
+                ctx.fillStyle = (control.action) ? '#ecf0f1' : '#ecf0f1';
+                ctx.roundRect(50, y, canvas.width - 100, 45, 20).fill();
+                ctx.font = '30px Arial';
+                ctx.fillStyle = 'black';
+                ctx.fillText(control.arrow || '', 95, y + 30);
+                ctx.font = '18px Arial';
+                ctx.fillStyle = 'black';
+                if (control.key) 
+                {
+                    const keyX = (control.action) ? canvas.width - 530 : canvas.width - 89;
+                    ctx.fillText(control.key, keyX, y + 35);
+                }
+                if (control.action)
+                 {
+                    const actionX = canvas.width - 150; // Adjusted position for the "Spacebar" text
+                     ctx.fillText(control.action, actionX, y + 30);
+}
+            });
+        }
+        function gotoHomePage(){
+          window.location.href = './Island.html';
+        }
+        CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, radius) 
+        {
+            this.beginPath();
+            this.moveTo(x + radius, y);
+            this.arcTo(x + width, y, x + width, y + height, radius);
+            this.arcTo(x + width, y + height, x, y + height, radius);
+            this.arcTo(x, y + height, x, y, radius);
+            this.arcTo(x, y, x + width, y, radius);
+            this.closePath();
+            return this;
+        };
+        drawControls();
+    </script>
+</body>
+</html>

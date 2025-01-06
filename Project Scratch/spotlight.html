@@ -1,0 +1,186 @@
+ <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotlight Effect</title>
+  <style>
+      #spotlight {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: grey;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 24px;
+      transition: background 1s ease-in-out;
+    }
+
+    #content {
+      position: relative;
+      z-index: 1;
+    }
+
+    #message {
+      display: none;
+    }
+    * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            overflow: hidden;
+            align-items: center;
+           min-height: 100vh;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        .box-container {
+          top: 0;
+          position: relative;
+           opacity: 0;
+           z-index: 1;
+}
+
+        .box {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 50%;
+            width: 300px;
+            background-size: cover;
+            height: 130px;
+            display: flex;
+            flex-direction: column; /* Updated to align items vertically */
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            border-radius: 20px;
+            z-index: 1;
+        }
+        .but{
+        display: flex;
+        flex-direction: row;
+        }
+        .box::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent 0%, transparent 50%, black 50%, black 100%);
+            background-size: 200% 100%;
+            background-position: 100% 0;
+            opacity: 0.5;
+            border-radius: 20px;
+        }
+        .box::after {
+            content: '';
+            position: absolute;
+            inset: 5px;
+            background-color: rgb(84, 242, 250);
+            border-radius: 16px;
+        }.btn-yes,
+        .btn-no {
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 2;
+            display: inline-block; /* Display buttons inline */
+        }
+        /* Add a class to style the text within the box */
+        .box-text {
+            z-index: 1;
+            color: black;
+            font-size: 16px;
+            text-align: center; /* Center the text */
+            overflow: hidden; /* Hide any overflowing content */
+            white-space: nowrap; /* Prevent text from wrapping */
+        }
+        @keyframes fadeIn {
+            from{
+                opacity: 0;
+            }
+            to {
+        opacity: 1;
+    }
+}
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+          }
+  </style>
+</head>
+<body bgcolor="grey">
+
+  <div id="spotlight">
+    <div id="message">Shark killed you</div>
+  </div>
+  <div class="box-container">
+    <div class="box">
+        <div class="box-text">Do you want to quit</div>
+        <div class="but">
+        <button class="btn-yes">Yes</button>
+        <button class="btn-no">No</button>
+    </div>
+    </div>
+</div><script>
+  // Immediately show the spotlight and message with fade-in effect
+  var spotlight = document.getElementById('spotlight');
+  var message = document.getElementById('message');
+  var boxContainer = document.querySelector('.box-container');
+  var btnYes = document.querySelector('.btn-yes');
+  var btnNo = document.querySelector('.btn-no');
+
+  spotlight.style.background = 'grey';
+  spotlight.style.display = 'flex';
+  message.style.display = 'block';
+
+  // Apply fade-in effect for spotlight
+  setTimeout(function () {
+      spotlight.style.background = 'grey';
+  }, 1000); // 1000 milliseconds = 1 second
+
+  // Apply fade-out effect for spotlight after a few seconds
+  setTimeout(function () {
+      spotlight.style.background = 'grey';
+      // Start the animation of the box-container after a delay
+      setTimeout(function () {
+          spotlight.style.display = 'none';
+          message.style.display = 'none';
+          // Start the animation of the box-container
+          boxContainer.style.opacity = '1'; // Fix the opacity value
+      }, 1000); // 1000 milliseconds = 1 second (same as the transition duration for spotlight)
+  }, 3000); // 3000 milliseconds = 3 seconds
+
+  // Add click event listeners to the 'Yes' and 'No' buttons
+  btnYes.addEventListener('click', function () {
+      // Apply fade-out effect to the box-container
+      boxContainer.style.opacity = '0';
+      // Optionally, you can add additional logic or actions here for the 'Yes' button
+  });
+
+  btnNo.addEventListener('click', function () {
+      // Apply fade-out effect to the box-container
+      boxContainer.style.opacity = '0';
+      // Optionally, you can add additional logic or actions here for the 'No' button
+  });
+</script>
+
+</body>
+</html> 

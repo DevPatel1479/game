@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Move Cube with Mouse Click</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    
+    <script type="module">
+        import * as THREE from '../build/three.module.js';
+
+        // Create the scene, camera, and renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Create a cube and add it to the scene
+        const cubeGeometry = new THREE.BoxGeometry();
+        const cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        scene.add(cube);
+
+        // Set up the camera position
+        camera.position.z = 5;
+
+        // Event listener for mouse click
+        document.addEventListener('click',moveCubeToPosition, false);
+
+        // Function to move the cube to the new position with animation
+        function moveCubeToPosition(x, y) {
+            const targetPosition = calculateTargetPosition(x, y);
+
+            new TWEEN.Tween(cube.position)
+                .to(targetPosition, 500) // Animation duration (ms)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .start();
+        }
+
+        // Helper function to calculate the target position
+        function calculateTargetPosition(x, y) {
+            const mousePosX = (x / window.innerWidth) * 2 - 1;
+            const mousePosY = -(y / window.innerHeight) * 2 + 1;
+
+            const distance = camera.position.z - cube.position.z;
+            const targetPosition = new THREE.Vector3(mousePosX * distance, mousePosY * distance, cube.position.z);
+            return targetPosition;
+        }
+
+        // Render the scene and update the Tween.js animations
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+            TWEEN.update();
+        }
+
+        animate();
+    </script>
+</body>
+</html>

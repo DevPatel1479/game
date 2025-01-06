@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">     
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attractive Typing Game</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background: linear-gradient(to bottom, #3498db, #2980b9);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #game-container {
+            margin: 20px;
+            padding: 20px;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            background-color: #ecf0f1;
+            max-width: 400px;
+            transition: background-color 0.3s ease;
+        }
+
+        #word-display {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        #user-input {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 80%;
+            box-sizing: border-box;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        #user-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        #timer {
+            font-size: 16px;
+            margin-top: 20px;
+            color: #2c3e50;
+        }
+
+        #result {
+            font-size: 20px;
+            margin-top: 20px;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        #buttons-container {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #timer-container {
+            font-size: 36px;
+            margin-top: 20px;
+            color: #3498db;
+        }
+
+        #time {
+            font-weight: bold;
+            animation: breathe 1s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Additional styles for responsiveness */
+        @media only screen and (max-width: 600px) {
+            #user-input {
+                width: 100%;
+            }
+
+            #game-container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game-container">
+        <div id="word-display"></div>
+        <input type="text" id="user-input" placeholder="Start typing...">
+        <div id="timer-container">
+            <span id="time">10</span>
+        </div>
+        <div id="result"></div>
+        <div id="buttons-container">
+            <button id="start-btn" onclick="startGame()">Start Game</button>
+            <button id="reset-btn" onclick="resetGame()" style="display:none;">Reset</button>
+        </div>
+    </div>
+    <script>
+          const levels = [
+  { word: "algorithm", time: 10 },
+  { word: "variable", time: 8 },
+  { word: "database", time: 8 },
+  { word: "function", time: 6 },
+  { word: "framework", time: 6 },
+  { word: "programming", time: 4 },
+  { word: "interface", time: 3 },
+  { word: "encryption", time: 3 },
+  { word: "compiler", time: 2 },
+  { word: "operatingsystem", time: 2 }
+];
+
+let currentLevel = 0;
+let time = 10;
+let timer;
+let isGameRunning = false;
+
+function startGame() {
+  if (!isGameRunning) {
+    isGameRunning = true;
+    document.getElementById("result").innerText = "";
+    document.getElementById("user-input").value = "";
+    currentLevel = 0; // Reset to the beginning
+    time = levels[currentLevel].time; // Set the initial time
+    updateWord();
+    updateTimer();
+    document.getElementById("start-btn").style.display = "none";
+    document.getElementById("reset-btn").style.display = "inline-block";
+
+    timer = setInterval(() => {
+      if (time > 0) {
+        time--;
+        updateTimer();
+      } else {
+        endGame();
+      }
+    }, 1000);
+  }
+}
+
+
+function resetGame() {
+  clearInterval(timer);
+  isGameRunning = false;
+  document.getElementById("start-btn").style.display = "inline-block";
+  document.getElementById("reset-btn").style.display = "none";
+  document.getElementById("result").innerText = "";
+  document.getElementById("user-input").value = "";
+  document.getElementById("word-display").innerText = ""; // Hide the word display
+  currentLevel = 0;
+  time = 10;
+  updateWord();
+  updateTimer();
+}
+
+function updateWord() {
+  document.getElementById("word-display").innerText = levels[currentLevel].word;
+}
+
+function updateTimer() {
+  document.getElementById("time").innerText = time;
+}
+
+function checkInput() {
+  const userInput = document.getElementById("user-input").value.trim().toLowerCase();
+  const currentWord = levels[currentLevel].word;
+  if (userInput === currentWord) {
+    currentLevel++;
+    document.getElementById("user-input").value = "";
+    if (currentLevel < levels.length) {
+      updateWord();
+      time = levels[currentLevel].time;
+      updateTimer();
+    } else {
+      endGame();
+    }
+  }
+}
+function endGame() {
+  clearInterval(timer);
+  isGameRunning = false;
+  document.getElementById("result").innerText = "Game Over!";
+  document.getElementById("start-btn").style.display = "inline-block";
+  document.getElementById("reset-btn").style.display = "none";
+  // Stop any running animations
+  document.getElementById("time").style.animation = "none";
+  document.getElementById("time").style.opacity = 1;
+  // Disable the user input field
+  document.getElementById("user-input").disabled = true;
+}
+document.getElementById("user-input").addEventListener("input", checkInput);
+
+</script>
+</body>
+
+</html>
+<!--<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attractive Typing Game</title>
+  <style>
+      body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          text-align: center;
+          background: linear-gradient(to bottom, #3498db, #2980b9);
+          margin: 0;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+      }
+
+      #game-container {
+          margin: 20px;
+          padding: 20px;
+          border: 2px solid #3498db;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+          background-color: #ecf0f1;
+          max-width: 400px;
+          transition: background-color 0.3s ease;
+      }
+
+      #word-display {
+          font-size: 24px;
+          margin-bottom: 20px;
+          color: #2c3e50;
+      }
+
+      #user-input {
+          font-size: 18px;
+          margin-bottom: 20px;
+          padding: 10px;
+          width: 80%;
+          box-sizing: border-box;
+          border: 1px solid #bdc3c7;
+          border-radius: 5px;
+          transition: all 0.3s ease;
+      }
+
+      #user-input:focus {
+          outline: none;
+          border-color: #3498db;
+      }
+
+      #timer {
+          font-size: 16px;
+          margin-top: 20px;
+          color: #2c3e50;
+      }
+
+      #result {
+          font-size: 20px;
+          margin-top: 20px;
+          color: #e74c3c;
+          font-weight: bold;
+      }
+
+      #buttons-container {
+          margin-top: 20px;
+      }
+
+      button {
+          padding: 10px 20px;
+          font-size: 16px;
+          cursor: pointer;
+          border: none;
+          border-radius: 5px;
+          background-color: #3498db;
+          color: #fff;
+          transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+          background-color: #2980b9;
+      }
+
+      #timer-container {
+          font-size: 36px;
+          margin-top: 20px;
+          color: #3498db;
+      }
+
+      #time {
+          font-weight: bold;
+          animation: breathe 1s ease-in-out infinite;
+      }
+
+      @keyframes breathe {
+          0%, 100% {
+              opacity: 0.8;
+          }
+
+          50% {
+              opacity: 1;
+          }
+      }
+
+      /* Additional styles for responsiveness */
+      @media only screen and (max-width: 600px) {
+          #user-input {
+              width: 100%;
+          }
+
+          #game-container {
+              max-width: 100%;
+          }
+      }
+  </style>
+</head>
+
+
+<body>
+    <div id="game-container">
+        <div id="word-display"></div>
+        <input type="text" id="user-input" placeholder="Start typing...">
+        <div id="timer-container">
+            <span id="time">10</span>
+        </div>
+        <div id="result"></div>
+        <div id="points">
+            Points: <span id="score">0</span>
+        </div>
+        <div id="buttons-container">
+            <button id="start-btn" onclick="startGame()">Start Game</button>
+            <button id="reset-btn" onclick="resetGame()" style="display:none;">Reset</button>
+        </div>
+    </div>
+    <script>
+          const levels = [
+  { word: "algorithm", time: 10 },
+  { word: "variable", time: 8 },
+  { word: "database", time: 8 },
+  { word: "function", time: 6 },
+  { word: "framework", time: 6 },
+  { word: "programming", time: 4 },
+  { word: "interface", time: 3 },
+  { word: "encryption", time: 3 },
+  { word: "compiler", time: 2 },
+  { word: "operatingsystem", time: 2 }
+];
+
+let currentLevel = 0;
+let time = 10;
+let timer;
+let isGameRunning = false;
+
+function startGame() {
+  if (!isGameRunning) {
+    isGameRunning = true;
+    document.getElementById("result").innerText = "";
+    document.getElementById("user-input").value = "";
+    currentLevel = 0; // Reset to the beginning
+    time = levels[currentLevel].time; // Set the initial time
+    updateWord();
+    updateTimer();
+    document.getElementById("start-btn").style.display = "none";
+    document.getElementById("reset-btn").style.display = "inline-block";
+
+    timer = setInterval(() => {
+      if (time > 0) {
+        time--;
+        updateTimer();
+      } else {
+        endGame();
+      }
+    }, 1000);
+  }
+}
+
+
+function resetGame() {
+  clearInterval(timer);
+  isGameRunning = false;
+  document.getElementById("start-btn").style.display = "inline-block";
+  document.getElementById("reset-btn").style.display = "none";
+  document.getElementById("result").innerText = "";
+  document.getElementById("user-input").value = "";
+  document.getElementById("word-display").innerText = ""; // Hide the word display
+  currentLevel = 0;
+  time = 10;
+  updateWord();
+  updateTimer();
+}
+
+function updateWord() {
+  document.getElementById("word-display").innerText = levels[currentLevel].word;
+}
+
+function updateTimer() {
+  document.getElementById("time").innerText = time;
+}
+
+
+        let score = 0;
+
+        function checkInput() {
+            const userInput = document.getElementById("user-input").value.trim().toLowerCase();
+            const currentWord = levels[currentLevel].word;
+            if (userInput === currentWord) {
+                score++;
+                document.getElementById("score").innerText = score; // Update the score
+                currentLevel++;
+                document.getElementById("user-input").value = "";
+                if (currentLevel < levels.length) {
+                    updateWord();
+                    time = levels[currentLevel].time;
+                    updateTimer();
+                } else {
+                    endGame();
+                }
+            }
+        }
+
+        function endGame() {
+          clearInterval(timer);
+  isGameRunning = false;
+  document.getElementById("result").innerText = "Game Over!";
+  document.getElementById("start-btn").style.display = "inline-block";
+  document.getElementById("reset-btn").style.display = "none";
+  // Stop any running animations
+  document.getElementById("time").style.animation = "none";
+  document.getElementById("time").style.opacity = 1;
+  // Disable the user input field
+  document.getElementById("user-input").disabled = true;
+            document.getElementById("result").innerText = "Game Over! Your Score: " + score;
+        }
+
+        document.getElementById("user-input").addEventListener("input", checkInput);
+
+</script>
+</body>
+
+</html> -->

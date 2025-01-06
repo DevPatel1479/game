@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotlight Effect</title>
+  <style>
+    @font-face {
+      font-family: myFont;
+      src: url("PumpkinIsland-Regular.ttf");
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      width: 100%;
+      height: 100%;
+      font-family: myFont;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .box-container {
+      margin-top: 150px;
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .box {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 50%;
+      width: 490px;
+      height: 230px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .but {
+      display: flex;
+      flex-direction: row;
+      margin-top: 20px;
+    }
+
+    .box::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, transparent 0%, transparent 50%, black 50%, black 100%);
+      background-size: 200% 100%;
+      background-position: 100% 0;
+      opacity: 0.5;
+      border-radius: 15px;
+    }
+
+    .box::after {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      background-color: #555;
+      border-radius: 10px;
+    }
+
+    .btn-yes,
+    .btn-no {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px 25px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 2;
+      font-size: 20px;
+      font-family: myFont;
+      font-style: italic;
+    }
+
+    #over {
+      z-index: 1;
+      color: white;
+      font-size: 60px;
+      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+      font-family: myFont;
+      font-style: italic;
+    }
+
+    .btn-no {
+      background-color: #f44336;
+    }
+
+    .box-text {
+      z-index: 1;
+      color: white;
+      font-size: 35px;
+      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+      font-family: myFont;
+      font-style: italic;
+    }
+
+    .blink {
+      animation: blink 0.6s ease-in-out;
+    }
+
+    @keyframes blink {
+      0%, 50%, 100% {
+        opacity: 0;
+      }
+      25%, 75% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="box-container">
+    <div class="box">
+      <div id="over">Game Over</div>
+      <div class="box-text">Do you want to restart</div>
+      <div class="but">
+        <button class="btn-yes">Yes</button>
+        <button class="btn-no">No</button>
+      </div>
+    </div>
+  </div>
+  <script src="die1.js" type="module"></script>
+</body>
+
+</html>

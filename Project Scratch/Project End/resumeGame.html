@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STRANDED</title>
+    <style>
+          * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+
+    .box-container {
+      top: 0;
+      position: relative;
+      opacity: 0; /* Initial opacity for fade-in effect */
+      animation: fadeIn 2s ease forwards; /* Animation for fade-in */
+      z-index: 10;
+    }
+
+    #popup {
+      position: absolute;
+      left: 1100px;
+      transform: translateX(-50%);
+      bottom: 190px;
+      width: 300px;
+      height: 130px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      border-radius: 20px;
+      animation: animateBox 4s linear forwards, fadeOut 2s 4s forwards; /* Added fadeOut animation */
+      z-index: 10;
+    }
+
+    #popup::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, transparent 0%, transparent 50%, black 50%, black 100%);
+      background-size: 200% 100%;
+      background-position: 100% 0;
+      animation: animateBox 4s linear forwards;
+      opacity: 0.5;
+      border-radius: 20px;
+    }
+
+    #popup::after {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      background-color: rgb(84, 242, 250);
+      border-radius: 16px;
+    }
+    #popupText {
+        top:50px;
+  z-index: 100; /* Keep the z-index high to ensure it's on top */
+  color: black;
+  font-size: 16px;
+  text-align: center;
+  position: relative; /* Add position relative to establish stacking context */
+}
+
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes animateBox {
+      0% {
+        background-position: 100% 0;
+      }
+      100% {
+        background-position: 0 100%;
+      }
+    }
+
+    </style>
+</head>
+<body>
+    <div class="box-container">
+        <div id="popup">
+          <div id="popupText">Welcome to game Stranded!!!</div>
+        </div>
+      </div>
+    <script src="resumeGameData.js" type="module"></script>
+</body>
+</html>

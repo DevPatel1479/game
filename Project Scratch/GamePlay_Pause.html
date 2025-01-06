@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STRANDED</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background: rgb(40%, 60%, 80%);
+            background-image: url("home page1.jpg");
+            background-repeat: no-repeat;
+            background-size: 1300px 870px;
+            opacity: 0; /* Set initial opacity to 0 */
+            transition: opacity 2s ease-in-out; /* Add a smooth transition effect */
+            overflow: hidden;
+        }
+
+        h1 {
+            margin: 30px auto;
+            text-align: center;
+            color: #808080;
+            font-size: 8em;
+            transition: 0.5s;
+            font-family: " Halloween Slime Font";
+            text-shadow: 2px 4px rgba(0, 0, 0, 20);
+            animation: fadeInAnimation ease 8s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        canvas {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body bgcolor="">
+    <h1>STRANDED</h1>
+    <div>
+        <canvas id="login" width="400" height="400"></canvas>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.body.style.opacity = 1; // Set opacity to 1 on page load
+        });
+
+        const canvas = document.getElementById("login");
+        const ctx = canvas.getContext("2d");
+
+        // Draw button function
+        function drawButton(x, y, text, color) {
+                ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+            ctx.shadowBlur = 5;
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(x + 5, y);
+            ctx.lineTo(x + 145, y);
+            ctx.quadraticCurveTo(x + 150, y, x + 150, y + 5);
+            ctx.lineTo(x + 150, y + 35);
+            ctx.quadraticCurveTo(x + 150, y + 40, x + 145, y + 40);
+            ctx.lineTo(x + 5, y + 40);
+            ctx.quadraticCurveTo(x, y + 40, x, y + 35);
+            ctx.lineTo(x, y + 5);
+            ctx.quadraticCurveTo(x, y, x + 5, y);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = "white";
+            ctx.font = "14px TAHOMA";
+            ctx.fillText(text, x + 10, y + 25);
+        }
+        drawButton(50, 100, "          Restart", "#696969");
+        drawButton(50, 160, "          Resume", "#696969");
+        drawButton(50, 220, "       Home Page", "#696969");
+        drawButton(50, 280, "          Exit", "#696969");
+
+        // Add event listeners to buttons
+        canvas.addEventListener("click", function (e) {
+            const x = e.clientX - canvas.getBoundingClientRect().left;
+            const y = e.clientY - canvas.getBoundingClientRect().top;
+            if (x >= 50 && x <= 150 && y >= 100 && y <= 160) {
+               //Restart button clicked
+                window.location.href = './New_Iland.html';
+            } 
+            // Check which button was clicked
+           else if (x >= 50 && x <= 150 && y >= 160 && y <= 220) {
+                // Resume button clicked
+                window.location.href = './resumeGame.html';
+                
+                
+                fadeOutEffect();
+            }  else if (x >= 50 && x <= 150 && y >= 220 && y <= 280){
+                // Home Page button clicked
+                window.location.href = './Island.html';
+                
+            } else if (x >= 50 && x <= 150 && y >= 280 && y <= 300) {
+                // Exit button clicked
+                window.close();
+            }
+        });
+     // Fade out effect function
+     function fadeOutEffect() {
+            const fadeOutAnimation = setInterval(function () {
+                if (document.body.style.opacity > 0) {
+                    document.body.style.opacity -= 0.9;
+                } else {
+                    clearInterval(fadeOutAnimation);
+                    // Perform any additional actions after the fade-out here
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STRANDED</title>    
+    <!-- <script type = "text/javascript" src="C:\Users\Webindia\Desktop\javascript.js"></script> -->
+</head>
+<style>
+    body
+    {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;  
+        background: rgba(0, 0, 0, 0.5); /* Add a semi-transparent black background for shadow effect */
+        background:rgb(40%, 60%, 80%);
+        /* background-image: url("home page1.jpg");
+        background-repeat: no-repeat; */
+       /* background-position-x:center ;
+       background-position-y:center ; */
+       background-size: 1300px 870px;
+       overflow: hidden;
+      
+    }   
+    h1 
+    {
+        margin: 30px auto;
+        text-align: center;
+        color: #808080;
+        font-size: 8em;
+        transition: 0.5s;
+        font-family:" Halloween Slime Font";
+        text-shadow: 2px 4px rgba(0, 0, 0, 20);
+    }
+    #login
+    {
+        margin-right: 800px;
+        display: block;
+    }
+    h1 
+    {
+        animation: fadeInAnimation ease 8s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+    }
+    @keyframes fadeInAnimation
+     {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    canvas
+    {
+        cursor:pointer;
+    }
+    video{
+        position: fixed;
+        top : 0;
+        left : 0;
+        width:  100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+    </style>
+<body bgcolor="">
+    <h1>STRANDED</h1>    
+    <div>
+        <canvas id="login" width="400" height="400"></canvas>
+        <canvas id="canvas" width="100" height="100"></canvas>
+    </div>
+    <video autoplay loop muted>
+        <source src="./HomePageGameVideo.mp4" type="video/mp4">
+    </video>
+    
+</body>
+<script>
+    const canvas = document.getElementById("login");
+    const ctx = canvas.getContext("2d");
+    // Draw login buttons with shadow effect
+    const buttonWidth = 100;
+    const buttonHeight = 40;
+    const borderRadius = 10; // Adjust the border radius here
+    function drawButton(x, y, text, color) {
+        ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+        ctx.shadowBlur = 5;
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(x + borderRadius, y);
+        ctx.lineTo(x + buttonWidth - borderRadius, y);
+        ctx.quadraticCurveTo(x + buttonWidth, y, x + buttonWidth, y + borderRadius);
+        ctx.lineTo(x + buttonWidth, y + buttonHeight - borderRadius);
+        ctx.quadraticCurveTo(x + buttonWidth, y + buttonHeight, x + buttonWidth - borderRadius, y + buttonHeight);
+        ctx.lineTo(x + borderRadius, y + buttonHeight);
+        ctx.quadraticCurveTo(x, y + buttonHeight, x, y + buttonHeight - borderRadius);
+        ctx.lineTo(x, y + borderRadius);
+        ctx.quadraticCurveTo(x, y, x + borderRadius, y);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = "white";
+        ctx.font = "20px TAHOMA";
+        ctx.fillText(text, x + 18, y + 25);
+    }
+    // Draw buttons
+    drawButton(70, 100, "  Play", "#696969");
+    drawButton(70, 160, " Credit", "#696969");
+    drawButton(70, 220, "Controls", "#696969");
+    drawButton(70, 280, "  Exit", "#696969");
+    // Add event listeners to buttons
+    canvas.addEventListener("click", function (e) {
+            const x = e.clientX - canvas.getBoundingClientRect().left;
+            const y = e.clientY - canvas.getBoundingClientRect().top;
+
+            // Check which button was clicked
+            if (x >= 70 && x <= 470 && y >= 100 && y <= 140) {
+                window.location.href = './fishrodPicking.html';
+                
+            
+            } else if (x >= 70 && x <= 470 && y >= 160 && y <= 200) {
+                // Credit button clicked
+                window.location.href = './credits.html';
+            } else if (x >= 70 && x <= 470 && y >= 220 && y <= 260) {
+                // Settings button clicked
+                window.location.href = './settings.html';
+            } else if (x >= 70 && x <= 470 && y >= 280 && y <= 320) {
+                window.close();
+                
+            }
+        });
+</script> 
+</body>
+</html>
